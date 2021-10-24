@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using FastCourse.Authorization.Users;
+using FastCourse.Users.Dto;
 
-namespace FastCourse.Users.Dto
+namespace FastCourse.Mappings
 {
     public class UserMapProfile : Profile
     {
