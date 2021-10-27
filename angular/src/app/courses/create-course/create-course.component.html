@@ -1,1 +1,72 @@
-<p>create-course works!</p>
+<form class="form-horizontal" autocomplete="off" #createCourseModal="ngForm" (ngSubmit)="save()">
+    <abp-modal-header title="Novo Curso" (onCloseClick)="bsModalRef.hide()"></abp-modal-header>
+    <div class="modal-body">
+        <div class="form-group row required">
+            <label class="col-md-3 col-form-label" for="name">
+                Nome
+            </label>
+            <div class="col-md-9">
+                <input type="text" class="form-control" name="name" id="name" required maxlength="32"
+                    [(ngModel)]="course.name" #nameModel="ngModel" #nameEl />
+                <abp-validation-summary [control]="nameModel" [controlEl]="nameEl"></abp-validation-summary>
+            </div>
+        </div>
+        <div class="form-group row required">
+            <label class="col-md-3 col-form-label" for="description">
+                Descrição
+            </label>
+            <div class="col-md-9">
+                <textarea  type="text" class="form-control" name="description" id="description" required maxlength="500"
+                    [(ngModel)]="course.description" #descriptionModel="ngModel" #descriptionEl ></textarea>
+                <abp-validation-summary [control]="descriptionModel" [controlEl]="descriptionEl">
+                </abp-validation-summary>
+            </div>
+        </div>
+        <div class="form-group row required">
+            <label class="col-md-3 col-form-label" for="preRequisites">
+                Pré-requisitos
+            </label>
+            <div class="col-md-9">
+                <input type="text" class="form-control" name="preRequisites" id="preRequisites" required maxlength="500"
+                    [(ngModel)]="course.preRequisites" #preRequisitesModel="ngModel" #preRequisitesEl />
+                <abp-validation-summary [control]="preRequisitesModel" [controlEl]="preRequisitesEl">
+                </abp-validation-summary>
+            </div>
+        </div>
+        <div class="form-group row required">
+            <label class="col-md-3 col-form-label" for="beginDate">
+                Data de Início
+            </label>
+            <div class="col-md-9">
+                <input type="text"
+           placeholder="Datepicker"
+           class="form-control"
+           bsDatepicker>                
+            </div>
+        </div>
+        <div class="form-group row required">
+            <label class="col-md-3 col-form-label" for="endDate">
+                Data fim
+            </label>
+            <div class="col-md-9">
+                <input type="text" class="form-control" name="preRequisites" id="preRequisites" required maxlength="500"
+                    [(ngModel)]="course.preRequisites" #preRequisitesModel="ngModel" #preRequisitesEl />
+                
+            </div>
+        </div>
+        <div class="form-group row mb-0">
+            <label class="col-md-3 col-form-label">
+                Ativo
+            </label>
+            <div class="col-md-9">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" name="active" id="active"
+                        [(ngModel)]="course.active" />
+                    <label class="custom-control-label mt-2" for="active"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <abp-modal-footer [cancelDisabled]="saving" [saveDisabled]="!createCourseModal.form.valid || saving"
+        (onCancelClick)="bsModalRef.hide()"></abp-modal-footer>
+</form>

@@ -38,8 +38,9 @@ import { SidebarComponent } from './layout/sidebar.component';
 import { SidebarLogoComponent } from './layout/sidebar-logo.component';
 import { SidebarUserPanelComponent } from './layout/sidebar-user-panel.component';
 import { SidebarMenuComponent } from './layout/sidebar-menu.component';
-import { CreateCourseComponent } from './courses/create-course/create-course.component';
+// courses
 import { CoursesComponent } from './courses/courses.component';
+import { CreateCourseComponent } from './courses/create-course/create-course.component';
 
 @NgModule({
   declarations: [

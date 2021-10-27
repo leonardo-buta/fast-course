@@ -11,11 +11,20 @@ namespace FastCourse.Courses
 {
     public class CourseAppService : FastCourseAppServiceBase, ICourseAppService
     {
-        private readonly IRepository<Course, int> _courseRepository;
+        private readonly IRepository<Course> _courseRepository;
 
-        public CourseAppService(IRepository<Course, int> courseRepository)
+        public CourseAppService(IRepository<Course> courseRepository)
         {
             _courseRepository = courseRepository;
+        }
+
+        public async Task<CourseDto> CreateAsync(CreateCourseDto input)
+        {
+            var course = ObjectMapper.Map<Course>(input);
+
+            await _courseRepository.InsertAsync(course);
+
+            return ObjectMapper.Map<CourseDto>(course);
         }
 
         public async Task<PagedResultDto<CourseDto>> GetListAsync()

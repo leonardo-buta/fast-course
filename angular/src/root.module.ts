@@ -7,6 +7,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 import { AbpHttpInterceptor } from 'abp-ng2-module';
 
@@ -38,6 +39,7 @@ export function getCurrentLanguage(): string {
     BsDropdownModule.forRoot(),
     CollapseModule.forRoot(),
     TabsModule.forRoot(),
+    BsDatepickerModule.forRoot(),
     ServiceProxyModule,
     RootRoutingModule,
   ],

@@ -216,6 +216,62 @@ export class CourseServiceProxy {
     }
 
     /**
+     * @param body (optional) 
+     * @return Success
+     */
+    create(body: CreateCourseDto | undefined): Observable<CourseDto> {
+        let url_ = this.baseUrl + "/api/services/app/Course/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<CourseDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CourseDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<CourseDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = CourseDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CourseDto>(<any>null);
+    }
+
+    /**
      * @return Success
      */
     getList(): Observable<CourseDtoPagedResultDto> {
@@ -2316,6 +2372,69 @@ export class CourseDtoPagedResultDto implements ICourseDtoPagedResultDto {
 export interface ICourseDtoPagedResultDto {
     items: CourseDto[] | undefined;
     totalCount: number;
+}
+
+export class CreateCourseDto implements ICreateCourseDto {
+    name: string | undefined;
+    description: string | undefined;
+    preRequisites: string | undefined;
+    startDate: moment.Moment;
+    endDate: moment.Moment;
+    active: boolean;
+
+    constructor(data?: ICreateCourseDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+            this.description = _data["description"];
+            this.preRequisites = _data["preRequisites"];
+            this.startDate = _data["startDate"] ? moment(_data["startDate"].toString()) : <any>undefined;
+            this.endDate = _data["endDate"] ? moment(_data["endDate"].toString()) : <any>undefined;
+            this.active = _data["active"];
+        }
+    }
+
+    static fromJS(data: any): CreateCourseDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateCourseDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["description"] = this.description;
+        data["preRequisites"] = this.preRequisites;
+        data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
+        data["endDate"] = this.endDate ? this.endDate.toISOString() : <any>undefined;
+        data["active"] = this.active;
+        return data; 
+    }
+
+    clone(): CreateCourseDto {
+        const json = this.toJSON();
+        let result = new CreateCourseDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateCourseDto {
+    name: string | undefined;
+    description: string | undefined;
+    preRequisites: string | undefined;
+    startDate: moment.Moment;
+    endDate: moment.Moment;
+    active: boolean;
 }
 
 export class CreateRoleDto implements ICreateRoleDto {
