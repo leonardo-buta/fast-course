@@ -14,7 +14,7 @@ namespace FastCourse.Mappings
         public CourseMapProfile()
         {
             CreateMap<Course, CourseDto>();
-            CreateMap<Course, CreateCourseInput>();
+            CreateMap<Course, CreateCourseDto>();
         }
     }
 }

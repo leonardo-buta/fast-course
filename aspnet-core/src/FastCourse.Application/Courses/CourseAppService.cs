@@ -21,6 +21,7 @@ namespace FastCourse.Courses
         public async Task<CourseDto> CreateAsync(CreateCourseDto input)
         {
             var course = ObjectMapper.Map<Course>(input);
+            course.Active = true;
 
             await _courseRepository.InsertAsync(course);
 
