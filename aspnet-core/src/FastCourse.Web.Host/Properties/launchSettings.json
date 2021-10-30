@@ -17,7 +17,7 @@
     },
     "FastCourse.Web.Host": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "launchUrl": "https://localhost:44311/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

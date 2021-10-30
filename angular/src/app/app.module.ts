@@ -13,7 +13,6 @@ import { AppComponent } from './app.component';
 import { ServiceProxyModule } from '@shared/service-proxies/service-proxy.module';
 import { SharedModule } from '@shared/shared.module';
 import { HomeComponent } from '@app/home/home.component';
-import { AboutComponent } from '@app/about/about.component';
 // tenants
 import { TenantsComponent } from '@app/tenants/tenants.component';
 import { CreateTenantDialogComponent } from './tenants/create-tenant/create-tenant-dialog.component';
@@ -41,12 +40,13 @@ import { SidebarMenuComponent } from './layout/sidebar-menu.component';
 // courses
 import { CoursesComponent } from './courses/courses.component';
 import { CreateCourseComponent } from './courses/create-course/create-course.component';
+import { QuestionsComponent } from './questions/questions.component';
+import { CreateQuestionComponent } from './questions/create-question/create-question.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    AboutComponent,
     // tenants
     TenantsComponent,
     CreateTenantDialogComponent,
@@ -72,7 +72,9 @@ import { CreateCourseComponent } from './courses/create-course/create-course.com
     SidebarUserPanelComponent,
     SidebarMenuComponent,
     CreateCourseComponent,
-    CoursesComponent
+    CoursesComponent,
+    QuestionsComponent,
+    CreateQuestionComponent
   ],
   imports: [
     CommonModule,

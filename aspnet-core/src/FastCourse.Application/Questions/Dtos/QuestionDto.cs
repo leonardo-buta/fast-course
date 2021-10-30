@@ -4,6 +4,7 @@ namespace FastCourse.Questions.Dtos
 {
     public class QuestionDto
     {
+        public int Id { get; set; }
         public string CourseName { get; set; }
         public string QuestionDescription { get; set; }
         public int Value { get; set; }

@@ -1,5 +1,4 @@
-﻿using Abp.Localization;
-using Abp.Modules;
+﻿using Abp.Modules;
 using Abp.Reflection.Extensions;
 using Abp.Runtime.Security;
 using Abp.Timing;
@@ -29,14 +28,12 @@ namespace FastCourse
             FastCourseLocalizationConfigurer.Configure(Configuration.Localization);
 
             // Enable this line to create a multi-tenant application.
-            Configuration.MultiTenancy.IsEnabled = FastCourseConsts.MultiTenancyEnabled;
+            //Configuration.MultiTenancy.IsEnabled = FastCourseConsts.MultiTenancyEnabled;
 
             // Configure roles
             AppRoleConfig.Configure(Configuration.Modules.Zero().RoleManagement);
 
             Configuration.Settings.Providers.Add<AppSettingProvider>();
-            
-            Configuration.Localization.Languages.Add(new LanguageInfo("fa", "فارسی", "famfamfam-flags ir"));
             
             Configuration.Settings.SettingEncryptionConfiguration.DefaultPassPhrase = FastCourseConsts.DefaultPassPhrase;
             SimpleStringCipher.DefaultPassPhrase = FastCourseConsts.DefaultPassPhrase;

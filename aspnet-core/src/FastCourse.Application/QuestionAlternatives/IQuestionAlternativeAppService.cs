@@ -2,7 +2,7 @@
 
 namespace FastCourse.QuestionAlternatives
 {
-    public interface IQuestionAppService : IApplicationService
+    public interface IQuestionAlternativeAppService : IApplicationService
     {
     }
 }

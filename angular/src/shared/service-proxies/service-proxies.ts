@@ -324,6 +324,244 @@ export class CourseServiceProxy {
 }
 
 @Injectable()
+export class QuestionServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    create(body: CreateQuestionDto | undefined): Observable<QuestionDto> {
+        let url_ = this.baseUrl + "/api/services/app/Question/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<QuestionDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<QuestionDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<QuestionDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = QuestionDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<QuestionDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getList(): Observable<QuestionDtoPagedResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/Question/GetList";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetList(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetList(<any>response_);
+                } catch (e) {
+                    return <Observable<QuestionDtoPagedResultDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<QuestionDtoPagedResultDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetList(response: HttpResponseBase): Observable<QuestionDtoPagedResultDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = QuestionDtoPagedResultDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<QuestionDtoPagedResultDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class QuestionAlternativeServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    create(body: QuestionAlternativeDto | undefined): Observable<QuestionAlternativeDto> {
+        let url_ = this.baseUrl + "/api/services/app/QuestionAlternative/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<QuestionAlternativeDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<QuestionAlternativeDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<QuestionAlternativeDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = QuestionAlternativeDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<QuestionAlternativeDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getList(): Observable<QuestionAlternativeDtoPagedResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/QuestionAlternative/GetList";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetList(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetList(<any>response_);
+                } catch (e) {
+                    return <Observable<QuestionAlternativeDtoPagedResultDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<QuestionAlternativeDtoPagedResultDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetList(response: HttpResponseBase): Observable<QuestionAlternativeDtoPagedResultDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = QuestionAlternativeDtoPagedResultDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<QuestionAlternativeDtoPagedResultDto>(<any>null);
+    }
+}
+
+@Injectable()
 export class RoleServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -2437,6 +2675,81 @@ export interface ICreateCourseDto {
     active: boolean;
 }
 
+export class CreateQuestionDto implements ICreateQuestionDto {
+    courseId: number;
+    questionDescription: string | undefined;
+    value: number;
+    active: boolean;
+    creatorUserId: number | undefined;
+    questionAlternatives: QuestionAlternativeDto[] | undefined;
+    creationTime: moment.Moment;
+
+    constructor(data?: ICreateQuestionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.courseId = _data["courseId"];
+            this.questionDescription = _data["questionDescription"];
+            this.value = _data["value"];
+            this.active = _data["active"];
+            this.creatorUserId = _data["creatorUserId"];
+            if (Array.isArray(_data["questionAlternatives"])) {
+                this.questionAlternatives = [] as any;
+                for (let item of _data["questionAlternatives"])
+                    this.questionAlternatives.push(QuestionAlternativeDto.fromJS(item));
+            }
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): CreateQuestionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateQuestionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["courseId"] = this.courseId;
+        data["questionDescription"] = this.questionDescription;
+        data["value"] = this.value;
+        data["active"] = this.active;
+        data["creatorUserId"] = this.creatorUserId;
+        if (Array.isArray(this.questionAlternatives)) {
+            data["questionAlternatives"] = [];
+            for (let item of this.questionAlternatives)
+                data["questionAlternatives"].push(item.toJSON());
+        }
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        return data; 
+    }
+
+    clone(): CreateQuestionDto {
+        const json = this.toJSON();
+        let result = new CreateQuestionDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateQuestionDto {
+    courseId: number;
+    questionDescription: string | undefined;
+    value: number;
+    active: boolean;
+    creatorUserId: number | undefined;
+    questionAlternatives: QuestionAlternativeDto[] | undefined;
+    creationTime: moment.Moment;
+}
+
 export class CreateRoleDto implements ICreateRoleDto {
     name: string;
     displayName: string;
@@ -3197,6 +3510,234 @@ export class PermissionDtoListResultDto implements IPermissionDtoListResultDto {
 
 export interface IPermissionDtoListResultDto {
     items: PermissionDto[] | undefined;
+}
+
+export class QuestionAlternativeDto implements IQuestionAlternativeDto {
+    questionDescription: string | undefined;
+    alternativeDescription: string | undefined;
+    isCorrect: boolean;
+    active: boolean;
+
+    constructor(data?: IQuestionAlternativeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.questionDescription = _data["questionDescription"];
+            this.alternativeDescription = _data["alternativeDescription"];
+            this.isCorrect = _data["isCorrect"];
+            this.active = _data["active"];
+        }
+    }
+
+    static fromJS(data: any): QuestionAlternativeDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new QuestionAlternativeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["questionDescription"] = this.questionDescription;
+        data["alternativeDescription"] = this.alternativeDescription;
+        data["isCorrect"] = this.isCorrect;
+        data["active"] = this.active;
+        return data; 
+    }
+
+    clone(): QuestionAlternativeDto {
+        const json = this.toJSON();
+        let result = new QuestionAlternativeDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IQuestionAlternativeDto {
+    questionDescription: string | undefined;
+    alternativeDescription: string | undefined;
+    isCorrect: boolean;
+    active: boolean;
+}
+
+export class QuestionAlternativeDtoPagedResultDto implements IQuestionAlternativeDtoPagedResultDto {
+    items: QuestionAlternativeDto[] | undefined;
+    totalCount: number;
+
+    constructor(data?: IQuestionAlternativeDtoPagedResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items.push(QuestionAlternativeDto.fromJS(item));
+            }
+            this.totalCount = _data["totalCount"];
+        }
+    }
+
+    static fromJS(data: any): QuestionAlternativeDtoPagedResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new QuestionAlternativeDtoPagedResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["totalCount"] = this.totalCount;
+        return data; 
+    }
+
+    clone(): QuestionAlternativeDtoPagedResultDto {
+        const json = this.toJSON();
+        let result = new QuestionAlternativeDtoPagedResultDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IQuestionAlternativeDtoPagedResultDto {
+    items: QuestionAlternativeDto[] | undefined;
+    totalCount: number;
+}
+
+export class QuestionDto implements IQuestionDto {
+    id: number;
+    courseName: string | undefined;
+    questionDescription: string | undefined;
+    value: number;
+    active: boolean;
+    creationTime: moment.Moment;
+
+    constructor(data?: IQuestionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.courseName = _data["courseName"];
+            this.questionDescription = _data["questionDescription"];
+            this.value = _data["value"];
+            this.active = _data["active"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): QuestionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new QuestionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["courseName"] = this.courseName;
+        data["questionDescription"] = this.questionDescription;
+        data["value"] = this.value;
+        data["active"] = this.active;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        return data; 
+    }
+
+    clone(): QuestionDto {
+        const json = this.toJSON();
+        let result = new QuestionDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IQuestionDto {
+    id: number;
+    courseName: string | undefined;
+    questionDescription: string | undefined;
+    value: number;
+    active: boolean;
+    creationTime: moment.Moment;
+}
+
+export class QuestionDtoPagedResultDto implements IQuestionDtoPagedResultDto {
+    items: QuestionDto[] | undefined;
+    totalCount: number;
+
+    constructor(data?: IQuestionDtoPagedResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items.push(QuestionDto.fromJS(item));
+            }
+            this.totalCount = _data["totalCount"];
+        }
+    }
+
+    static fromJS(data: any): QuestionDtoPagedResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new QuestionDtoPagedResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["totalCount"] = this.totalCount;
+        return data; 
+    }
+
+    clone(): QuestionDtoPagedResultDto {
+        const json = this.toJSON();
+        let result = new QuestionDtoPagedResultDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IQuestionDtoPagedResultDto {
+    items: QuestionDto[] | undefined;
+    totalCount: number;
 }
 
 export class RegisterInput implements IRegisterInput {

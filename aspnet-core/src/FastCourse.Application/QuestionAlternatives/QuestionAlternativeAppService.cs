@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace FastCourse.QuestionAlternatives
 {
-    public class QuestionAppService : FastCourseAppServiceBase, IQuestionAppService
+    public class QuestionAlternativeAppService : FastCourseAppServiceBase, IQuestionAlternativeAppService
     {
         private readonly IRepository<QuestionAlternative> _questionAlternativeRepository;
 
-        public QuestionAppService(IRepository<QuestionAlternative> questionAlternativeRepository)
+        public QuestionAlternativeAppService(IRepository<QuestionAlternative> questionAlternativeRepository)
         {
             _questionAlternativeRepository = questionAlternativeRepository;
         }

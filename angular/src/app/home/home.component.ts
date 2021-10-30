@@ -8,7 +8,13 @@ import { appModuleAnimation } from '@shared/animations/routerTransition';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent extends AppComponentBase {
+  shownLoginName = '';
+
   constructor(injector: Injector) {
     super(injector);
+  }
+
+  ngOnInit() {
+    this.shownLoginName = this.appSession.getShownLoginName();
   }
 }
