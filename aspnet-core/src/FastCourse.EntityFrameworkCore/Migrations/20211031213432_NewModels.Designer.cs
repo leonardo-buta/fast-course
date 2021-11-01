@@ -4,14 +4,16 @@ using FastCourse.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FastCourse.Migrations
 {
     [DbContext(typeof(FastCourseDbContext))]
-    partial class FastCourseDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211031213432_NewModels")]
+    partial class NewModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1538,7 +1540,7 @@ namespace FastCourse.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CertificateIdId")
+                    b.Property<int>("CertificateId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreationTime")
@@ -1554,8 +1556,6 @@ namespace FastCourse.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CertificateIdId");
 
                     b.ToTable("CertificateEmission");
                 });
@@ -2035,15 +2035,6 @@ namespace FastCourse.Migrations
                     b.Navigation("DeleterUser");
 
                     b.Navigation("LastModifierUser");
-                });
-
-            modelBuilder.Entity("FastCourse.CertificateEmissions.CertificateEmission", b =>
-                {
-                    b.HasOne("FastCourse.Certificates.Certificate", "CertificateId")
-                        .WithMany()
-                        .HasForeignKey("CertificateIdId");
-
-                    b.Navigation("CertificateId");
                 });
 
             modelBuilder.Entity("FastCourse.Certificates.Certificate", b =>

@@ -9,6 +9,7 @@ using FastCourse.QuestionAlternatives;
 using FastCourse.VideoLessons;
 using FastCourse.Certificates;
 using FastCourse.CertificateEmissions;
+using FastCourse.VideoLessonsHistory;
 
 namespace FastCourse.EntityFrameworkCore
 {
@@ -16,9 +17,11 @@ namespace FastCourse.EntityFrameworkCore
     {
         public DbSet<Course> Courses { get; set; }
         public DbSet<Question> Questions { get; set; }
+        public DbSet<QuestionAlternative> QuestionAlternatives { get; set; }
         public DbSet<VideoLesson> VideoLessons { get; set; }
         public DbSet<Certificate> Certificates { get; set; }
         public DbSet<CertificateEmission> CertificateEmissions { get; set; }
+        public DbSet<VideoLessonHistory> VideoLessonsHistory { get; set; }
 
         public FastCourseDbContext(DbContextOptions<FastCourseDbContext> options)
             : base(options)

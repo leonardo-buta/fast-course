@@ -19,24 +19,24 @@ namespace FastCourse.Certificates
 
         public async Task<CertificateDto> CreateAsync(CreateCertificateDto input)
         {
-            var question = ObjectMapper.Map<Certificate>(input);
-            question.Active = true;
+            var certificate = ObjectMapper.Map<Certificate>(input);
+            certificate.Active = true;
 
-            await _certificateRepository.InsertAsync(question);
+            await _certificateRepository.InsertAsync(certificate);
 
-            return ObjectMapper.Map<CertificateDto>(question);
+            return ObjectMapper.Map<CertificateDto>(certificate);
         }
 
         public async Task<PagedResultDto<CertificateDto>> GetListAsync()
         {
-            var questions = await _certificateRepository
+            var certificates = await _certificateRepository
                 .GetAll()
                 .OrderByDescending(e => e.CreationTime)
                 .ToListAsync();
 
-            var questionsCount = await _certificateRepository.CountAsync();
+            var certificatesCount = await _certificateRepository.CountAsync();
 
-            return new PagedResultDto<CertificateDto>(questionsCount, ObjectMapper.Map<List<CertificateDto>>(questions));
+            return new PagedResultDto<CertificateDto>(certificatesCount, ObjectMapper.Map<List<CertificateDto>>(certificates));
         }
     }
 }

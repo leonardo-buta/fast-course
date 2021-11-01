@@ -1,12 +1,13 @@
 ﻿using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
+using FastCourse.Authorization.Users;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FastCourse.Courses
 {
     [Table("Course")]
-    public class Course : Entity<int>, ICreationAudited
+    public class Course : Entity<int>, IHasCreationTime
     {
         public string Name { get; set; }
         public string Description { get; set; }
@@ -14,7 +15,7 @@ namespace FastCourse.Courses
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public bool Active { get; set; }
-        public long? CreatorUserId { get; set; }
+        public User User { get; set; }
         public DateTime CreationTime { get; set; }
     }
 }

@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="FastCourse.Courses.Course">
+    <Position X="2.25" Y="0.75" Width="2.25" />
+    <Members>
+      <Method Name="Course" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier />
+  </Class>
+  <Class Name="FastCourse.Questions.Question">
+    <Position X="6" Y="0.75" Width="2.5" />
+    <Members>
+      <Method Name="Question" Hidden="true" />
+    </Members>
+    <TypeIdentifier />
+    <ShowAsAssociation>
+      <Property Name="Course" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="FastCourse.QuestionAlternatives.QuestionAlternative">
+    <Position X="9.75" Y="0.75" Width="2.5" />
+    <Members>
+      <Method Name="QuestionAlternative" Hidden="true" />
+    </Members>
+    <TypeIdentifier />
+    <ShowAsAssociation>
+      <Property Name="Question" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="FastCourse.VideoLessons.VideoLesson">
+    <Position X="6" Y="4" Width="2.5" />
+    <Members>
+      <Method Name="VideoLesson" Hidden="true" />
+    </Members>
+    <TypeIdentifier />
+    <ShowAsAssociation>
+      <Property Name="Course" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="FastCourse.Certificates.Certificate">
+    <Position X="2.25" Y="3.75" Width="2.75" />
+    <TypeIdentifier />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

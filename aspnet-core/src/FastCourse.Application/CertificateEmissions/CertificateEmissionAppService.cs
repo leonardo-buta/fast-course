@@ -19,23 +19,23 @@ namespace FastCourse.CertificateEmissions
 
         public async Task<CertificateEmissionDto> CreateAsync(CreateCertificateEmissionDto input)
         {
-            var question = ObjectMapper.Map<CertificateEmission>(input);
+            var certificate = ObjectMapper.Map<CertificateEmission>(input);
 
-            await _certificateRepository.InsertAsync(question);
+            await _certificateRepository.InsertAsync(certificate);
 
-            return ObjectMapper.Map<CertificateEmissionDto>(question);
+            return ObjectMapper.Map<CertificateEmissionDto>(certificate);
         }
 
         public async Task<PagedResultDto<CertificateEmissionDto>> GetListAsync()
         {
-            var questions = await _certificateRepository
+            var certificates = await _certificateRepository
                 .GetAll()
                 .OrderByDescending(e => e.CreationTime)
                 .ToListAsync();
 
-            var questionsCount = await _certificateRepository.CountAsync();
+            var certificatesCount = await _certificateRepository.CountAsync();
 
-            return new PagedResultDto<CertificateEmissionDto>(questionsCount, ObjectMapper.Map<List<CertificateEmissionDto>>(questions));
+            return new PagedResultDto<CertificateEmissionDto>(certificatesCount, ObjectMapper.Map<List<CertificateEmissionDto>>(certificates));
         }
     }
 }
