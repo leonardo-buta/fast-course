@@ -1538,24 +1538,23 @@ namespace FastCourse.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CertificateIdId")
+                    b.Property<int?>("CertificateId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
-
                     b.Property<DateTime>("EmissionDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<long?>("UserId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CertificateIdId");
+                    b.HasIndex("CertificateId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("CertificateEmission");
                 });
@@ -1575,9 +1574,6 @@ namespace FastCourse.Migrations
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
-
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
 
                     b.Property<DateTime?>("ExpirationDate")
                         .HasColumnType("datetime2");
@@ -1610,9 +1606,6 @@ namespace FastCourse.Migrations
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
-
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -1713,9 +1706,6 @@ namespace FastCourse.Migrations
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
-
                     b.Property<bool>("IsCorrect")
                         .HasColumnType("bit");
 
@@ -1744,9 +1734,6 @@ namespace FastCourse.Migrations
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
-
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
 
                     b.Property<string>("QuestionDescription")
                         .HasColumnType("nvarchar(max)");
@@ -1777,9 +1764,6 @@ namespace FastCourse.Migrations
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
-
                     b.Property<bool>("Live")
                         .HasColumnType("bit");
 
@@ -1796,7 +1780,7 @@ namespace FastCourse.Migrations
                     b.ToTable("VideoLesson");
                 });
 
-            modelBuilder.Entity("FastCourse.VideoLessonsHistory.VideoLessonHistory", b =>
+            modelBuilder.Entity("FastCourse.VideoLessonsUserProgress.VideoLessonUserProgress", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1806,7 +1790,7 @@ namespace FastCourse.Migrations
                     b.Property<DateTime>("CompletionDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("UserId")
+                    b.Property<long?>("UserId")
                         .HasColumnType("bigint");
 
                     b.Property<int?>("VideoLessonId")
@@ -1814,9 +1798,11 @@ namespace FastCourse.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId");
+
                     b.HasIndex("VideoLessonId");
 
-                    b.ToTable("VideoLessonHistory");
+                    b.ToTable("VideoLessonUserProgress");
                 });
 
             modelBuilder.Entity("Abp.Application.Features.EditionFeatureSetting", b =>
@@ -2039,11 +2025,17 @@ namespace FastCourse.Migrations
 
             modelBuilder.Entity("FastCourse.CertificateEmissions.CertificateEmission", b =>
                 {
-                    b.HasOne("FastCourse.Certificates.Certificate", "CertificateId")
+                    b.HasOne("FastCourse.Certificates.Certificate", "Certificate")
                         .WithMany()
-                        .HasForeignKey("CertificateIdId");
+                        .HasForeignKey("CertificateId");
 
-                    b.Navigation("CertificateId");
+                    b.HasOne("FastCourse.Authorization.Users.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Certificate");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FastCourse.Certificates.Certificate", b =>
@@ -2109,11 +2101,17 @@ namespace FastCourse.Migrations
                     b.Navigation("Course");
                 });
 
-            modelBuilder.Entity("FastCourse.VideoLessonsHistory.VideoLessonHistory", b =>
+            modelBuilder.Entity("FastCourse.VideoLessonsUserProgress.VideoLessonUserProgress", b =>
                 {
+                    b.HasOne("FastCourse.Authorization.Users.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
                     b.HasOne("FastCourse.VideoLessons.VideoLesson", "VideoLesson")
                         .WithMany()
                         .HasForeignKey("VideoLessonId");
+
+                    b.Navigation("User");
 
                     b.Navigation("VideoLesson");
                 });

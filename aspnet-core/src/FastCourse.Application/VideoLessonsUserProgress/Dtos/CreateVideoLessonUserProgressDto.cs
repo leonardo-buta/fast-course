@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace FastCourse.VideoLessonsHistory.Dtos
+namespace FastCourse.VideoLessonsUserProgress.Dtos
 {
-    public class CreateVideoLessonHistoryDto
+    public class CreateVideoLessonUserProgressDto
     {
         public string Name { get; set; }
         public int CourseId { get; set; }

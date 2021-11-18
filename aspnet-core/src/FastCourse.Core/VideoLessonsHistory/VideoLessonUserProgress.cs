@@ -1,15 +1,16 @@
 ﻿using Abp.Domain.Entities;
+using FastCourse.Authorization.Users;
 using FastCourse.VideoLessons;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace FastCourse.VideoLessonsHistory
+namespace FastCourse.VideoLessonsUserProgress
 {
-    [Table("VideoLessonHistory")]
-    public class VideoLessonHistory : Entity<int>
+    [Table("VideoLessonUserProgress")]
+    public class VideoLessonUserProgress : Entity<int>
     {
         public VideoLesson VideoLesson { get; set; }
-        public long UserId { get; set; }
+        public User User { get; set; }
         public DateTime CompletionDate { get; set; }
     }
 }

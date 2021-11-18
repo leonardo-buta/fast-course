@@ -1,6 +1,5 @@
 ﻿using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
-using FastCourse.Authorization.Users;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -15,7 +14,6 @@ namespace FastCourse.Courses
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public bool Active { get; set; }
-        public User User { get; set; }
         public DateTime CreationTime { get; set; }
     }
 }

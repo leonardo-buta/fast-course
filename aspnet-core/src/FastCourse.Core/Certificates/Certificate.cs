@@ -16,7 +16,6 @@ namespace FastCourse.Certificates
         public DateTime? ExpirationDate { get; set; }
         public string Signature { get; set; }
         public bool Active { get; set; }
-        public User User { get; set; }
         public DateTime CreationTime { get; set; }
     }
 }

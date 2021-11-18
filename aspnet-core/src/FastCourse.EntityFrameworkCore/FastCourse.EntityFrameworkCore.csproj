@@ -26,4 +26,7 @@
   <ItemGroup>
     <ProjectReference Include="..\FastCourse.Core\FastCourse.Core.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
 </Project>
