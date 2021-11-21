@@ -6,7 +6,7 @@
                 Nome
             </label>
             <div class="col-md-9">
-                <input type="text" class="form-control" name="name" id="name" required maxlength="32"
+                <input type="text" class="form-control" name="name" id="name" required maxlength="255"
                     [(ngModel)]="course.name" #nameModel="ngModel" #nameEl />
                 <abp-validation-summary [control]="nameModel" [controlEl]="nameEl"></abp-validation-summary>
             </div>
@@ -16,7 +16,7 @@
                 Descrição
             </label>
             <div class="col-md-9">
-                <textarea  type="text" class="form-control" name="description" id="description" required maxlength="500"
+                <textarea type="text" class="form-control" name="description" id="description" required maxlength="500"
                     [(ngModel)]="course.description" #descriptionModel="ngModel" #descriptionEl ></textarea>
                 <abp-validation-summary [control]="descriptionModel" [controlEl]="descriptionEl">
                 </abp-validation-summary>
@@ -38,10 +38,8 @@
                 Data de Início
             </label>
             <div class="col-md-9">
-                <input type="text"
-           placeholder="Datepicker"
-           class="form-control"
-           bsDatepicker>                
+                <input type="text" class="form-control" name="startDate" id="startDate" placeholder="dd/mm/yyyy" required maxlength="500"
+                    [(ngModel)]="course.startDate" #startDateodel="ngModel" #startDateEl />
             </div>
         </div>
         <div class="form-group row required">
@@ -49,21 +47,8 @@
                 Data fim
             </label>
             <div class="col-md-9">
-                <input type="text" class="form-control" name="preRequisites" id="preRequisites" required maxlength="500"
-                    [(ngModel)]="course.preRequisites" #preRequisitesModel="ngModel" #preRequisitesEl />
-                
-            </div>
-        </div>
-        <div class="form-group row mb-0">
-            <label class="col-md-3 col-form-label">
-                Ativo
-            </label>
-            <div class="col-md-9">
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" name="active" id="active"
-                        [(ngModel)]="course.active" />
-                    <label class="custom-control-label mt-2" for="active"></label>
-                </div>
+                <input type="text" class="form-control" name="endDate" id="endDate" placeholder="dd/mm/yyyy" required maxlength="500"
+                    [(ngModel)]="course.endDate" #preRequisitesModel="ngModel" #endDateEl />
             </div>
         </div>
     </div>
