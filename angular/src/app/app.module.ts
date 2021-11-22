@@ -42,6 +42,8 @@ import { CoursesComponent } from './courses/courses.component';
 import { CreateCourseComponent } from './courses/create-course/create-course.component';
 import { QuestionsComponent } from './questions/questions.component';
 import { CreateQuestionComponent } from './questions/create-question/create-question.component';
+import { VideoLessonsComponent } from './video-lessons/video-lessons.component';
+import { CreateVideoLessonComponent } from './video-lessons/create-video-lesson/create-video-lesson.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +76,9 @@ import { CreateQuestionComponent } from './questions/create-question/create-ques
     CreateCourseComponent,
     CoursesComponent,
     QuestionsComponent,
-    CreateQuestionComponent
+    CreateQuestionComponent,
+    VideoLessonsComponent,
+    CreateVideoLessonComponent
   ],
   imports: [
     CommonModule,

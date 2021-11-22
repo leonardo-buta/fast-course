@@ -12,6 +12,7 @@ import * as ApiServiceProxies from './service-proxies';
         ApiServiceProxies.UserServiceProxy,
         ApiServiceProxies.CourseServiceProxy,
         ApiServiceProxies.QuestionServiceProxy,
+        ApiServiceProxies.VideoLessonServiceProxy,
         ApiServiceProxies.TokenAuthServiceProxy,
         ApiServiceProxies.AccountServiceProxy,
         ApiServiceProxies.ConfigurationServiceProxy,
