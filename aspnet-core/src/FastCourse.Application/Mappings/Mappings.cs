@@ -2,6 +2,8 @@
 using FastCourse.Authorization.Users;
 using FastCourse.Courses;
 using FastCourse.Courses.Dtos;
+using FastCourse.QuestionAlternatives;
+using FastCourse.QuestionAlternatives.Dtos;
 using FastCourse.Questions;
 using FastCourse.Questions.Dtos;
 using FastCourse.Users.Dto;
@@ -29,6 +31,9 @@ namespace FastCourse.Mappings
             // Question
             CreateMap<CreateQuestionDto, Question>();
             CreateMap<QuestionDto, Question>().ReverseMap();
+
+            // Question Alternative
+            CreateMap<CreateQuestionAlternativeDto, QuestionAlternative>();
         }
     }
 }

@@ -42,13 +42,20 @@
                     Alternativas
                 </label>
                 <div *ngFor="let qa of question.questionAlternatives; let i = index;" class="form-group row required">
-                    <input type="text" class="form-control" required [name]="'qaDescription' + i"
-                        [(ngModel)]="qa.alternativeDescription" />
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" [name]="'qaIsCorrect' + i" [(ngModel)]="qa.isCorrect" />
-                        <label class="custom-control-label"></label>
+                    <div class="col-md-11">
+                        <input type="text" class="form-control" required [name]="'qaDescription' + i"
+                            [(ngModel)]="qa.alternativeDescription" />
+                    </div>
+                    <div class="col-md-1" style="padding-top: 1%;">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" [name]="'qaIsCorrect' + i"
+                                [(ngModel)]="qa.isCorrect" />
+                            <label class="custom-control-label"></label>
+                        </div>
                     </div>
                 </div>
+                <button type="button" class="btn btn-primary" [disabled]="blockAddAlternative"
+                    (click)="addQuestionAlternative()">Adicionar alternativa</button>
             </tab>
         </tabset>
     </div>

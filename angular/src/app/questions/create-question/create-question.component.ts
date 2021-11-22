@@ -12,7 +12,8 @@ import {
   CreateQuestionDto,
   CourseSelectDto,
   CourseServiceProxy,
-  CreateQuestionAlternativeDto} from '@shared/service-proxies/service-proxies';
+  CreateQuestionAlternativeDto
+} from '@shared/service-proxies/service-proxies';
 
 @Component({
   selector: 'app-create-question',
@@ -23,6 +24,8 @@ export class CreateQuestionComponent extends AppComponentBase
   saving = false;
   question = new CreateQuestionDto();
   courses: CourseSelectDto[] = [];
+  maxAlternative = 5;
+  blockAddAlternative = false;
 
   @Output() onSave = new EventEmitter<any>();
 
@@ -35,8 +38,8 @@ export class CreateQuestionComponent extends AppComponentBase
     super(injector);
   }
 
-  ngOnInit(): void {    
-    this.question.questionAlternatives = [new CreateQuestionAlternativeDto({ "alternativeDescription": "", "isCorrect": false })];
+  ngOnInit(): void {
+    this.question.questionAlternatives = [new CreateQuestionAlternativeDto({ "alternativeDescription": "", "isCorrect": true })];
     this._courseService.getListSelect()
       .subscribe((result: CourseSelectDto[]) => {
         this.courses = result;
@@ -55,5 +58,13 @@ export class CreateQuestionComponent extends AppComponentBase
         this.saving = false;
       }
     );
+  }
+
+  addQuestionAlternative(): void {
+    if (this.question.questionAlternatives.length <= this.maxAlternative) {
+      this.question.questionAlternatives.push(new CreateQuestionAlternativeDto({ "alternativeDescription": "", "isCorrect": false }));
+    }
+
+    this.blockAddAlternative = this.question.questionAlternatives.length == this.maxAlternative;
   }
 }
