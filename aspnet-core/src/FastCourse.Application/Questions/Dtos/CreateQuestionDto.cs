@@ -9,9 +9,7 @@ namespace FastCourse.Questions.Dtos
         public int CourseId { get; set; }
         public string QuestionDescription { get; set; }
         public int Value { get; set; }
-        public bool Active { get; set; }
-        public long? CreatorUserId { get; set; }
-        public List<QuestionAlternativeDto> QuestionAlternatives { get; set; }
+        public List<CreateQuestionAlternativeDto> QuestionAlternatives { get; set; }
         public DateTime CreationTime { get; set; }
     }
 }

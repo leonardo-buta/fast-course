@@ -141,6 +141,244 @@ export class AccountServiceProxy {
 }
 
 @Injectable()
+export class CertificateServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    create(body: CreateCertificateDto | undefined): Observable<CertificateDto> {
+        let url_ = this.baseUrl + "/api/services/app/Certificate/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<CertificateDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CertificateDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<CertificateDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = CertificateDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CertificateDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getList(): Observable<CertificateDtoPagedResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/Certificate/GetList";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetList(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetList(<any>response_);
+                } catch (e) {
+                    return <Observable<CertificateDtoPagedResultDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CertificateDtoPagedResultDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetList(response: HttpResponseBase): Observable<CertificateDtoPagedResultDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = CertificateDtoPagedResultDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CertificateDtoPagedResultDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class CertificateEmissionServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    create(body: CreateCertificateEmissionDto | undefined): Observable<CertificateEmissionDto> {
+        let url_ = this.baseUrl + "/api/services/app/CertificateEmission/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<CertificateEmissionDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CertificateEmissionDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<CertificateEmissionDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = CertificateEmissionDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CertificateEmissionDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getList(): Observable<CertificateEmissionDtoPagedResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/CertificateEmission/GetList";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetList(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetList(<any>response_);
+                } catch (e) {
+                    return <Observable<CertificateEmissionDtoPagedResultDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CertificateEmissionDtoPagedResultDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetList(response: HttpResponseBase): Observable<CertificateEmissionDtoPagedResultDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = CertificateEmissionDtoPagedResultDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CertificateEmissionDtoPagedResultDto>(<any>null);
+    }
+}
+
+@Injectable()
 export class ConfigurationServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -320,6 +558,64 @@ export class CourseServiceProxy {
             }));
         }
         return _observableOf<CourseDtoPagedResultDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getListSelect(): Observable<CourseSelectDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Course/GetListSelect";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetListSelect(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetListSelect(<any>response_);
+                } catch (e) {
+                    return <Observable<CourseSelectDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CourseSelectDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetListSelect(response: HttpResponseBase): Observable<CourseSelectDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(CourseSelectDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CourseSelectDto[]>(<any>null);
     }
 }
 
@@ -2192,6 +2488,244 @@ export class UserServiceProxy {
     }
 }
 
+@Injectable()
+export class VideoLessonServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    create(body: CreateVideoLessonDto | undefined): Observable<VideoLessonDto> {
+        let url_ = this.baseUrl + "/api/services/app/VideoLesson/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<VideoLessonDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<VideoLessonDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<VideoLessonDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = VideoLessonDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<VideoLessonDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getList(): Observable<VideoLessonDtoPagedResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/VideoLesson/GetList";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetList(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetList(<any>response_);
+                } catch (e) {
+                    return <Observable<VideoLessonDtoPagedResultDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<VideoLessonDtoPagedResultDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetList(response: HttpResponseBase): Observable<VideoLessonDtoPagedResultDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = VideoLessonDtoPagedResultDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<VideoLessonDtoPagedResultDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class VideoLessonUserProgressServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    create(body: CreateVideoLessonUserProgressDto | undefined): Observable<VideoLessonUserProgressDto> {
+        let url_ = this.baseUrl + "/api/services/app/VideoLessonUserProgress/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<VideoLessonUserProgressDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<VideoLessonUserProgressDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<VideoLessonUserProgressDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = VideoLessonUserProgressDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<VideoLessonUserProgressDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getList(): Observable<VideoLessonUserProgressDtoPagedResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/VideoLessonUserProgress/GetList";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetList(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetList(<any>response_);
+                } catch (e) {
+                    return <Observable<VideoLessonUserProgressDtoPagedResultDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<VideoLessonUserProgressDtoPagedResultDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetList(response: HttpResponseBase): Observable<VideoLessonUserProgressDtoPagedResultDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = VideoLessonUserProgressDtoPagedResultDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<VideoLessonUserProgressDtoPagedResultDto>(<any>null);
+    }
+}
+
 export class ApplicationInfoDto implements IApplicationInfoDto {
     version: string | undefined;
     releaseDate: moment.Moment;
@@ -2359,6 +2893,242 @@ export interface IAuthenticateResultModel {
     encryptedAccessToken: string | undefined;
     expireInSeconds: number;
     userId: number;
+}
+
+export class CertificateDto implements ICertificateDto {
+    id: number;
+    name: string | undefined;
+    course: string | undefined;
+    totalHours: number;
+    expirationDate: moment.Moment | undefined;
+    signature: string | undefined;
+    active: boolean;
+
+    constructor(data?: ICertificateDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.course = _data["course"];
+            this.totalHours = _data["totalHours"];
+            this.expirationDate = _data["expirationDate"] ? moment(_data["expirationDate"].toString()) : <any>undefined;
+            this.signature = _data["signature"];
+            this.active = _data["active"];
+        }
+    }
+
+    static fromJS(data: any): CertificateDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CertificateDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["course"] = this.course;
+        data["totalHours"] = this.totalHours;
+        data["expirationDate"] = this.expirationDate ? this.expirationDate.toISOString() : <any>undefined;
+        data["signature"] = this.signature;
+        data["active"] = this.active;
+        return data; 
+    }
+
+    clone(): CertificateDto {
+        const json = this.toJSON();
+        let result = new CertificateDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICertificateDto {
+    id: number;
+    name: string | undefined;
+    course: string | undefined;
+    totalHours: number;
+    expirationDate: moment.Moment | undefined;
+    signature: string | undefined;
+    active: boolean;
+}
+
+export class CertificateDtoPagedResultDto implements ICertificateDtoPagedResultDto {
+    items: CertificateDto[] | undefined;
+    totalCount: number;
+
+    constructor(data?: ICertificateDtoPagedResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items.push(CertificateDto.fromJS(item));
+            }
+            this.totalCount = _data["totalCount"];
+        }
+    }
+
+    static fromJS(data: any): CertificateDtoPagedResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CertificateDtoPagedResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["totalCount"] = this.totalCount;
+        return data; 
+    }
+
+    clone(): CertificateDtoPagedResultDto {
+        const json = this.toJSON();
+        let result = new CertificateDtoPagedResultDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICertificateDtoPagedResultDto {
+    items: CertificateDto[] | undefined;
+    totalCount: number;
+}
+
+export class CertificateEmissionDto implements ICertificateEmissionDto {
+    certificateId: number;
+    userId: number;
+    emissionDate: moment.Moment;
+    creatorUserId: number | undefined;
+    creationTime: moment.Moment;
+
+    constructor(data?: ICertificateEmissionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.certificateId = _data["certificateId"];
+            this.userId = _data["userId"];
+            this.emissionDate = _data["emissionDate"] ? moment(_data["emissionDate"].toString()) : <any>undefined;
+            this.creatorUserId = _data["creatorUserId"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): CertificateEmissionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CertificateEmissionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["certificateId"] = this.certificateId;
+        data["userId"] = this.userId;
+        data["emissionDate"] = this.emissionDate ? this.emissionDate.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        return data; 
+    }
+
+    clone(): CertificateEmissionDto {
+        const json = this.toJSON();
+        let result = new CertificateEmissionDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICertificateEmissionDto {
+    certificateId: number;
+    userId: number;
+    emissionDate: moment.Moment;
+    creatorUserId: number | undefined;
+    creationTime: moment.Moment;
+}
+
+export class CertificateEmissionDtoPagedResultDto implements ICertificateEmissionDtoPagedResultDto {
+    items: CertificateEmissionDto[] | undefined;
+    totalCount: number;
+
+    constructor(data?: ICertificateEmissionDtoPagedResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items.push(CertificateEmissionDto.fromJS(item));
+            }
+            this.totalCount = _data["totalCount"];
+        }
+    }
+
+    static fromJS(data: any): CertificateEmissionDtoPagedResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CertificateEmissionDtoPagedResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["totalCount"] = this.totalCount;
+        return data; 
+    }
+
+    clone(): CertificateEmissionDtoPagedResultDto {
+        const json = this.toJSON();
+        let result = new CertificateEmissionDtoPagedResultDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICertificateEmissionDtoPagedResultDto {
+    items: CertificateEmissionDto[] | undefined;
+    totalCount: number;
 }
 
 export class ChangePasswordDto implements IChangePasswordDto {
@@ -2612,6 +3382,175 @@ export interface ICourseDtoPagedResultDto {
     totalCount: number;
 }
 
+export class CourseSelectDto implements ICourseSelectDto {
+    id: number;
+    name: string | undefined;
+
+    constructor(data?: ICourseSelectDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+        }
+    }
+
+    static fromJS(data: any): CourseSelectDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CourseSelectDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        return data; 
+    }
+
+    clone(): CourseSelectDto {
+        const json = this.toJSON();
+        let result = new CourseSelectDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICourseSelectDto {
+    id: number;
+    name: string | undefined;
+}
+
+export class CreateCertificateDto implements ICreateCertificateDto {
+    name: string | undefined;
+    courseId: number;
+    totalHours: number;
+    expirationDate: moment.Moment | undefined;
+    signature: string | undefined;
+    active: boolean;
+
+    constructor(data?: ICreateCertificateDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+            this.courseId = _data["courseId"];
+            this.totalHours = _data["totalHours"];
+            this.expirationDate = _data["expirationDate"] ? moment(_data["expirationDate"].toString()) : <any>undefined;
+            this.signature = _data["signature"];
+            this.active = _data["active"];
+        }
+    }
+
+    static fromJS(data: any): CreateCertificateDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateCertificateDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["courseId"] = this.courseId;
+        data["totalHours"] = this.totalHours;
+        data["expirationDate"] = this.expirationDate ? this.expirationDate.toISOString() : <any>undefined;
+        data["signature"] = this.signature;
+        data["active"] = this.active;
+        return data; 
+    }
+
+    clone(): CreateCertificateDto {
+        const json = this.toJSON();
+        let result = new CreateCertificateDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateCertificateDto {
+    name: string | undefined;
+    courseId: number;
+    totalHours: number;
+    expirationDate: moment.Moment | undefined;
+    signature: string | undefined;
+    active: boolean;
+}
+
+export class CreateCertificateEmissionDto implements ICreateCertificateEmissionDto {
+    certificateId: number;
+    userId: number;
+    emissionDate: moment.Moment;
+    creatorUserId: number | undefined;
+    creationTime: moment.Moment;
+
+    constructor(data?: ICreateCertificateEmissionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.certificateId = _data["certificateId"];
+            this.userId = _data["userId"];
+            this.emissionDate = _data["emissionDate"] ? moment(_data["emissionDate"].toString()) : <any>undefined;
+            this.creatorUserId = _data["creatorUserId"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): CreateCertificateEmissionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateCertificateEmissionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["certificateId"] = this.certificateId;
+        data["userId"] = this.userId;
+        data["emissionDate"] = this.emissionDate ? this.emissionDate.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        return data; 
+    }
+
+    clone(): CreateCertificateEmissionDto {
+        const json = this.toJSON();
+        let result = new CreateCertificateEmissionDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateCertificateEmissionDto {
+    certificateId: number;
+    userId: number;
+    emissionDate: moment.Moment;
+    creatorUserId: number | undefined;
+    creationTime: moment.Moment;
+}
+
 export class CreateCourseDto implements ICreateCourseDto {
     name: string | undefined;
     description: string | undefined;
@@ -2675,13 +3614,58 @@ export interface ICreateCourseDto {
     active: boolean;
 }
 
+export class CreateQuestionAlternativeDto implements ICreateQuestionAlternativeDto {
+    alternativeDescription: string | undefined;
+    isCorrect: boolean;
+
+    constructor(data?: ICreateQuestionAlternativeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.alternativeDescription = _data["alternativeDescription"];
+            this.isCorrect = _data["isCorrect"];
+        }
+    }
+
+    static fromJS(data: any): CreateQuestionAlternativeDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateQuestionAlternativeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["alternativeDescription"] = this.alternativeDescription;
+        data["isCorrect"] = this.isCorrect;
+        return data; 
+    }
+
+    clone(): CreateQuestionAlternativeDto {
+        const json = this.toJSON();
+        let result = new CreateQuestionAlternativeDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateQuestionAlternativeDto {
+    alternativeDescription: string | undefined;
+    isCorrect: boolean;
+}
+
 export class CreateQuestionDto implements ICreateQuestionDto {
     courseId: number;
     questionDescription: string | undefined;
     value: number;
-    active: boolean;
-    creatorUserId: number | undefined;
-    questionAlternatives: QuestionAlternativeDto[] | undefined;
+    questionAlternatives: CreateQuestionAlternativeDto[] | undefined;
     creationTime: moment.Moment;
 
     constructor(data?: ICreateQuestionDto) {
@@ -2698,12 +3682,10 @@ export class CreateQuestionDto implements ICreateQuestionDto {
             this.courseId = _data["courseId"];
             this.questionDescription = _data["questionDescription"];
             this.value = _data["value"];
-            this.active = _data["active"];
-            this.creatorUserId = _data["creatorUserId"];
             if (Array.isArray(_data["questionAlternatives"])) {
                 this.questionAlternatives = [] as any;
                 for (let item of _data["questionAlternatives"])
-                    this.questionAlternatives.push(QuestionAlternativeDto.fromJS(item));
+                    this.questionAlternatives.push(CreateQuestionAlternativeDto.fromJS(item));
             }
             this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
         }
@@ -2721,8 +3703,6 @@ export class CreateQuestionDto implements ICreateQuestionDto {
         data["courseId"] = this.courseId;
         data["questionDescription"] = this.questionDescription;
         data["value"] = this.value;
-        data["active"] = this.active;
-        data["creatorUserId"] = this.creatorUserId;
         if (Array.isArray(this.questionAlternatives)) {
             data["questionAlternatives"] = [];
             for (let item of this.questionAlternatives)
@@ -2744,9 +3724,7 @@ export interface ICreateQuestionDto {
     courseId: number;
     questionDescription: string | undefined;
     value: number;
-    active: boolean;
-    creatorUserId: number | undefined;
-    questionAlternatives: QuestionAlternativeDto[] | undefined;
+    questionAlternatives: CreateQuestionAlternativeDto[] | undefined;
     creationTime: moment.Moment;
 }
 
@@ -2949,6 +3927,128 @@ export interface ICreateUserDto {
     isActive: boolean;
     roleNames: string[] | undefined;
     password: string;
+}
+
+export class CreateVideoLessonDto implements ICreateVideoLessonDto {
+    courseId: number;
+    name: string | undefined;
+    url: string | undefined;
+    active: boolean;
+    live: boolean;
+
+    constructor(data?: ICreateVideoLessonDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.courseId = _data["courseId"];
+            this.name = _data["name"];
+            this.url = _data["url"];
+            this.active = _data["active"];
+            this.live = _data["live"];
+        }
+    }
+
+    static fromJS(data: any): CreateVideoLessonDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateVideoLessonDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["courseId"] = this.courseId;
+        data["name"] = this.name;
+        data["url"] = this.url;
+        data["active"] = this.active;
+        data["live"] = this.live;
+        return data; 
+    }
+
+    clone(): CreateVideoLessonDto {
+        const json = this.toJSON();
+        let result = new CreateVideoLessonDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateVideoLessonDto {
+    courseId: number;
+    name: string | undefined;
+    url: string | undefined;
+    active: boolean;
+    live: boolean;
+}
+
+export class CreateVideoLessonUserProgressDto implements ICreateVideoLessonUserProgressDto {
+    name: string | undefined;
+    courseId: number;
+    totalHours: number;
+    expirationDate: moment.Moment | undefined;
+    signature: string | undefined;
+    active: boolean;
+
+    constructor(data?: ICreateVideoLessonUserProgressDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+            this.courseId = _data["courseId"];
+            this.totalHours = _data["totalHours"];
+            this.expirationDate = _data["expirationDate"] ? moment(_data["expirationDate"].toString()) : <any>undefined;
+            this.signature = _data["signature"];
+            this.active = _data["active"];
+        }
+    }
+
+    static fromJS(data: any): CreateVideoLessonUserProgressDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateVideoLessonUserProgressDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["courseId"] = this.courseId;
+        data["totalHours"] = this.totalHours;
+        data["expirationDate"] = this.expirationDate ? this.expirationDate.toISOString() : <any>undefined;
+        data["signature"] = this.signature;
+        data["active"] = this.active;
+        return data; 
+    }
+
+    clone(): CreateVideoLessonUserProgressDto {
+        const json = this.toJSON();
+        let result = new CreateVideoLessonUserProgressDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateVideoLessonUserProgressDto {
+    name: string | undefined;
+    courseId: number;
+    totalHours: number;
+    expirationDate: moment.Moment | undefined;
+    signature: string | undefined;
+    active: boolean;
 }
 
 export class ExternalAuthenticateModel implements IExternalAuthenticateModel {
@@ -3513,10 +4613,8 @@ export interface IPermissionDtoListResultDto {
 }
 
 export class QuestionAlternativeDto implements IQuestionAlternativeDto {
-    questionDescription: string | undefined;
     alternativeDescription: string | undefined;
     isCorrect: boolean;
-    active: boolean;
 
     constructor(data?: IQuestionAlternativeDto) {
         if (data) {
@@ -3529,10 +4627,8 @@ export class QuestionAlternativeDto implements IQuestionAlternativeDto {
 
     init(_data?: any) {
         if (_data) {
-            this.questionDescription = _data["questionDescription"];
             this.alternativeDescription = _data["alternativeDescription"];
             this.isCorrect = _data["isCorrect"];
-            this.active = _data["active"];
         }
     }
 
@@ -3545,10 +4641,8 @@ export class QuestionAlternativeDto implements IQuestionAlternativeDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["questionDescription"] = this.questionDescription;
         data["alternativeDescription"] = this.alternativeDescription;
         data["isCorrect"] = this.isCorrect;
-        data["active"] = this.active;
         return data; 
     }
 
@@ -3561,10 +4655,8 @@ export class QuestionAlternativeDto implements IQuestionAlternativeDto {
 }
 
 export interface IQuestionAlternativeDto {
-    questionDescription: string | undefined;
     alternativeDescription: string | undefined;
     isCorrect: boolean;
-    active: boolean;
 }
 
 export class QuestionAlternativeDtoPagedResultDto implements IQuestionAlternativeDtoPagedResultDto {
@@ -4613,6 +5705,246 @@ export interface IUserLoginInfoDto {
     surname: string | undefined;
     userName: string | undefined;
     emailAddress: string | undefined;
+}
+
+export class VideoLessonDto implements IVideoLessonDto {
+    id: number;
+    courseId: number;
+    name: string | undefined;
+    url: string | undefined;
+    active: boolean;
+    live: boolean;
+
+    constructor(data?: IVideoLessonDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.courseId = _data["courseId"];
+            this.name = _data["name"];
+            this.url = _data["url"];
+            this.active = _data["active"];
+            this.live = _data["live"];
+        }
+    }
+
+    static fromJS(data: any): VideoLessonDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new VideoLessonDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["courseId"] = this.courseId;
+        data["name"] = this.name;
+        data["url"] = this.url;
+        data["active"] = this.active;
+        data["live"] = this.live;
+        return data; 
+    }
+
+    clone(): VideoLessonDto {
+        const json = this.toJSON();
+        let result = new VideoLessonDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IVideoLessonDto {
+    id: number;
+    courseId: number;
+    name: string | undefined;
+    url: string | undefined;
+    active: boolean;
+    live: boolean;
+}
+
+export class VideoLessonDtoPagedResultDto implements IVideoLessonDtoPagedResultDto {
+    items: VideoLessonDto[] | undefined;
+    totalCount: number;
+
+    constructor(data?: IVideoLessonDtoPagedResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items.push(VideoLessonDto.fromJS(item));
+            }
+            this.totalCount = _data["totalCount"];
+        }
+    }
+
+    static fromJS(data: any): VideoLessonDtoPagedResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new VideoLessonDtoPagedResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["totalCount"] = this.totalCount;
+        return data; 
+    }
+
+    clone(): VideoLessonDtoPagedResultDto {
+        const json = this.toJSON();
+        let result = new VideoLessonDtoPagedResultDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IVideoLessonDtoPagedResultDto {
+    items: VideoLessonDto[] | undefined;
+    totalCount: number;
+}
+
+export class VideoLessonUserProgressDto implements IVideoLessonUserProgressDto {
+    id: number;
+    name: string | undefined;
+    course: string | undefined;
+    totalHours: number;
+    expirationDate: moment.Moment | undefined;
+    signature: string | undefined;
+    active: boolean;
+
+    constructor(data?: IVideoLessonUserProgressDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.course = _data["course"];
+            this.totalHours = _data["totalHours"];
+            this.expirationDate = _data["expirationDate"] ? moment(_data["expirationDate"].toString()) : <any>undefined;
+            this.signature = _data["signature"];
+            this.active = _data["active"];
+        }
+    }
+
+    static fromJS(data: any): VideoLessonUserProgressDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new VideoLessonUserProgressDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["course"] = this.course;
+        data["totalHours"] = this.totalHours;
+        data["expirationDate"] = this.expirationDate ? this.expirationDate.toISOString() : <any>undefined;
+        data["signature"] = this.signature;
+        data["active"] = this.active;
+        return data; 
+    }
+
+    clone(): VideoLessonUserProgressDto {
+        const json = this.toJSON();
+        let result = new VideoLessonUserProgressDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IVideoLessonUserProgressDto {
+    id: number;
+    name: string | undefined;
+    course: string | undefined;
+    totalHours: number;
+    expirationDate: moment.Moment | undefined;
+    signature: string | undefined;
+    active: boolean;
+}
+
+export class VideoLessonUserProgressDtoPagedResultDto implements IVideoLessonUserProgressDtoPagedResultDto {
+    items: VideoLessonUserProgressDto[] | undefined;
+    totalCount: number;
+
+    constructor(data?: IVideoLessonUserProgressDtoPagedResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items.push(VideoLessonUserProgressDto.fromJS(item));
+            }
+            this.totalCount = _data["totalCount"];
+        }
+    }
+
+    static fromJS(data: any): VideoLessonUserProgressDtoPagedResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new VideoLessonUserProgressDtoPagedResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["totalCount"] = this.totalCount;
+        return data; 
+    }
+
+    clone(): VideoLessonUserProgressDtoPagedResultDto {
+        const json = this.toJSON();
+        let result = new VideoLessonUserProgressDtoPagedResultDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IVideoLessonUserProgressDtoPagedResultDto {
+    items: VideoLessonUserProgressDto[] | undefined;
+    totalCount: number;
 }
 
 export class ApiException extends Error {

@@ -1,5 +1,6 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.Domain.Repositories;
+using FastCourse.Courses;
 using FastCourse.Questions.Dtos;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -11,15 +12,18 @@ namespace FastCourse.Questions
     public class QuestionAppService : FastCourseAppServiceBase, IQuestionAppService
     {
         private readonly IRepository<Question> _questionRepository;
+        private readonly IRepository<Course> _courseRepository;
 
-        public QuestionAppService(IRepository<Question> questionRepository)
+        public QuestionAppService(IRepository<Question> questionRepository, IRepository<Course> courseRepository)
         {
             _questionRepository = questionRepository;
+            _courseRepository = courseRepository;
         }
 
         public async Task<QuestionDto> CreateAsync(CreateQuestionDto input)
         {
             var question = ObjectMapper.Map<Question>(input);
+            question.Course = await _courseRepository.GetAsync(input.CourseId);
             question.Active = true;
 
             await _questionRepository.InsertAsync(question);
@@ -30,7 +34,7 @@ namespace FastCourse.Questions
         public async Task<PagedResultDto<QuestionDto>> GetListAsync()
         {
             var questions = await _questionRepository
-                .GetAll()
+                .GetAllIncluding(x => x.Course)
                 .OrderByDescending(e => e.CreationTime)
                 .ToListAsync();
 

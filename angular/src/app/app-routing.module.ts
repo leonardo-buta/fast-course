@@ -9,6 +9,8 @@ import { RolesComponent } from 'app/roles/roles.component';
 import { ChangePasswordComponent } from './users/change-password/change-password.component';
 import { CoursesComponent } from './courses/courses.component';
 import { CreateCourseComponent } from './courses/create-course/create-course.component';
+import { QuestionsComponent } from './questions/questions.component';
+import { CreateQuestionComponent } from './questions/create-question/create-question.component';
 
 @NgModule({
     imports: [
@@ -23,7 +25,9 @@ import { CreateCourseComponent } from './courses/create-course/create-course.com
                     { path: 'tenants', component: TenantsComponent, data: { permission: 'Pages.Tenants' }, canActivate: [AppRouteGuard] },
                     { path: 'update-password', component: ChangePasswordComponent, canActivate: [AppRouteGuard] },
                     { path: 'courses', component: CoursesComponent, canActivate: [AppRouteGuard] },
-                    { path: 'create-course', component: CreateCourseComponent, canActivate: [AppRouteGuard] }
+                    { path: 'create-course', component: CreateCourseComponent, canActivate: [AppRouteGuard] },
+                    { path: 'questions', component: QuestionsComponent, canActivate: [AppRouteGuard] },
+                    { path: 'create-question', component: CreateQuestionComponent, canActivate: [AppRouteGuard] }
                 ]
             }
         ])

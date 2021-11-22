@@ -39,5 +39,15 @@ namespace FastCourse.Courses
 
             return new PagedResultDto<CourseDto>(coursesCount, ObjectMapper.Map<List<CourseDto>>(courses));
         }
+
+        public async Task<List<CourseSelectDto>> GetListSelectAsync()
+        {
+            var courses = await _courseRepository
+                .GetAll()
+                .OrderByDescending(e => e.CreationTime)
+                .ToListAsync();
+
+            return ObjectMapper.Map<List<CourseSelectDto>>(courses);
+        }
     }
 }
