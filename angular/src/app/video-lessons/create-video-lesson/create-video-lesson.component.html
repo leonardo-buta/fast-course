@@ -1,1 +1,51 @@
-<p>create-video-lesson works!</p>
+<form class="form-horizontal" autocomplete="off" #createQuestionModal="ngForm" (ngSubmit)="save()">
+    <abp-modal-header title="Nova Aula" (onCloseClick)="bsModalRef.hide()"></abp-modal-header>
+    <div class="modal-body">
+        <div class="form-group row required">
+            <label class="col-md-3 col-form-label" for="name">
+                Curso
+            </label>
+            <div class="col-md-9">
+                <select name="course" class="form-control" name="courseId" id="courseId"
+                    [(ngModel)]="videoLesson.courseId" required>
+                    <option *ngFor="let course of courses" [value]="course.id"> {{course.name}} </option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row required">
+            <label class="col-md-3 col-form-label" for="name">
+                Nome da Aula
+            </label>
+            <div class="col-md-9">
+                <input type="text" class="form-control" name="name" id="name" rows="10" required
+                    [(ngModel)]="videoLesson.name" #nameModel="ngModel" #nameEl />
+                <abp-validation-summary [control]="nameModel" [controlEl]="nameEl">
+                </abp-validation-summary>
+            </div>
+        </div>
+        <div class="form-group row required">
+            <label class="col-md-3 col-form-label" for="url">
+                Link da Aula
+            </label>
+            <div class="col-md-9">
+                <input type="text" class="form-control" name="url" id="url" min="1" max="10" required
+                    [(ngModel)]="videoLesson.url" #urlModel="ngModel" #urlEl />
+                <abp-validation-summary [control]="urlModel" [controlEl]="urlEl">
+                </abp-validation-summary>
+            </div>
+        </div>
+        <div class="form-group row required">
+            <div class="col-md-12 offset-md-10">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="live" name="live"
+                        [(ngModel)]="videoLesson.live" />
+                    <label for="live" class="custom-control-label">
+                        Aula ao vivo
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <abp-modal-footer [cancelDisabled]="saving" [saveDisabled]="!createQuestionModal.form.valid || saving"
+        (onCancelClick)="bsModalRef.hide()"></abp-modal-footer>
+</form>

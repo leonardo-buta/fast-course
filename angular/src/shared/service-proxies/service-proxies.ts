@@ -5709,11 +5709,10 @@ export interface IUserLoginInfoDto {
 
 export class VideoLessonDto implements IVideoLessonDto {
     id: number;
-    courseId: number;
+    courseName: string | undefined;
     name: string | undefined;
-    url: string | undefined;
-    active: boolean;
     live: boolean;
+    creationTime: moment.Moment;
 
     constructor(data?: IVideoLessonDto) {
         if (data) {
@@ -5727,11 +5726,10 @@ export class VideoLessonDto implements IVideoLessonDto {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.courseId = _data["courseId"];
+            this.courseName = _data["courseName"];
             this.name = _data["name"];
-            this.url = _data["url"];
-            this.active = _data["active"];
             this.live = _data["live"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
         }
     }
 
@@ -5745,11 +5743,10 @@ export class VideoLessonDto implements IVideoLessonDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["courseId"] = this.courseId;
+        data["courseName"] = this.courseName;
         data["name"] = this.name;
-        data["url"] = this.url;
-        data["active"] = this.active;
         data["live"] = this.live;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         return data; 
     }
 
@@ -5763,11 +5760,10 @@ export class VideoLessonDto implements IVideoLessonDto {
 
 export interface IVideoLessonDto {
     id: number;
-    courseId: number;
+    courseName: string | undefined;
     name: string | undefined;
-    url: string | undefined;
-    active: boolean;
     live: boolean;
+    creationTime: moment.Moment;
 }
 
 export class VideoLessonDtoPagedResultDto implements IVideoLessonDtoPagedResultDto {

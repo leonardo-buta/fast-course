@@ -7,6 +7,8 @@ using FastCourse.QuestionAlternatives.Dtos;
 using FastCourse.Questions;
 using FastCourse.Questions.Dtos;
 using FastCourse.Users.Dto;
+using FastCourse.VideoLessons;
+using FastCourse.VideoLessons.Dtos;
 
 namespace FastCourse.Mappings
 {
@@ -34,6 +36,10 @@ namespace FastCourse.Mappings
 
             // Question Alternative
             CreateMap<CreateQuestionAlternativeDto, QuestionAlternative>();
+
+            // Video Lesson
+            CreateMap<CreateVideoLessonDto, VideoLesson>();
+            CreateMap<VideoLessonDto, VideoLesson>().ReverseMap();
         }
     }
 }
