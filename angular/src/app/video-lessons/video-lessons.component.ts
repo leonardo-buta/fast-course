@@ -12,6 +12,7 @@ import {
   VideoLessonServiceProxy
 } from '@shared/service-proxies/service-proxies';
 import { CreateVideoLessonComponent } from './create-video-lesson/create-video-lesson.component';
+import { WatchVideoLessonComponent } from './watch-video-lesson/watch-video-lesson.component';
 
 class PagedVideoLessonsRequestDto extends PagedRequestDto {
   keyword: string;
@@ -110,5 +111,16 @@ export class VideoLessonsComponent extends PagedListingComponentBase<VideoLesson
     createOrEditVideoLessonDialog.content.onSave.subscribe(() => {
       this.refresh();
     });
+  }
+
+  protected watchVideoLesson(id?: number): void {
+    this._modalService.show(WatchVideoLessonComponent,
+      {
+        class: 'modal-lg',
+        initialState: {
+          id: id
+        }
+      }
+    );
   }
 }

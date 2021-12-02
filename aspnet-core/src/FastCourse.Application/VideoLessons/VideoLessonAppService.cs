@@ -20,6 +20,12 @@ namespace FastCourse.VideoLessons
             _courseRepository = courseRepository;
         }
 
+        public async Task<VideoLessonDto> GetById(int id)
+        {
+            var videoLesson = await _videoLessonRepository.GetAsync(id);
+            return ObjectMapper.Map<VideoLessonDto>(videoLesson);
+        }
+
         public async Task<VideoLessonDto> CreateAsync(CreateVideoLessonDto input)
         {
             var videoLesson = ObjectMapper.Map<VideoLesson>(input);

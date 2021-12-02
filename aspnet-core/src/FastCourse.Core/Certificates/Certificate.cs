@@ -1,6 +1,5 @@
 ﻿using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
-using FastCourse.Authorization.Users;
 using FastCourse.Courses;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;

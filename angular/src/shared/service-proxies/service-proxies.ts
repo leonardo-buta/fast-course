@@ -2500,6 +2500,62 @@ export class VideoLessonServiceProxy {
     }
 
     /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getById(id: number | undefined): Observable<VideoLessonDto> {
+        let url_ = this.baseUrl + "/api/services/app/VideoLesson/GetById?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetById(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetById(<any>response_);
+                } catch (e) {
+                    return <Observable<VideoLessonDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<VideoLessonDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetById(response: HttpResponseBase): Observable<VideoLessonDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = VideoLessonDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<VideoLessonDto>(<any>null);
+    }
+
+    /**
      * @param body (optional) 
      * @return Success
      */
@@ -5711,6 +5767,7 @@ export class VideoLessonDto implements IVideoLessonDto {
     id: number;
     courseName: string | undefined;
     name: string | undefined;
+    url: string | undefined;
     live: boolean;
     creationTime: moment.Moment;
 
@@ -5728,6 +5785,7 @@ export class VideoLessonDto implements IVideoLessonDto {
             this.id = _data["id"];
             this.courseName = _data["courseName"];
             this.name = _data["name"];
+            this.url = _data["url"];
             this.live = _data["live"];
             this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
         }
@@ -5745,6 +5803,7 @@ export class VideoLessonDto implements IVideoLessonDto {
         data["id"] = this.id;
         data["courseName"] = this.courseName;
         data["name"] = this.name;
+        data["url"] = this.url;
         data["live"] = this.live;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         return data; 
@@ -5762,6 +5821,7 @@ export interface IVideoLessonDto {
     id: number;
     courseName: string | undefined;
     name: string | undefined;
+    url: string | undefined;
     live: boolean;
     creationTime: moment.Moment;
 }
