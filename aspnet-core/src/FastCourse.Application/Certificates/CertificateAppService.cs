@@ -30,7 +30,7 @@ namespace FastCourse.Certificates
         public async Task<PagedResultDto<CertificateDto>> GetListAsync()
         {
             var certificates = await _certificateRepository
-                .GetAll()
+                .GetAllIncluding(x => x.Course)
                 .OrderByDescending(e => e.CreationTime)
                 .ToListAsync();
 

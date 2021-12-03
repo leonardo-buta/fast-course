@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using FastCourse.Authorization.Users;
+using FastCourse.Certificates;
+using FastCourse.Certificates.Dtos;
 using FastCourse.Courses;
 using FastCourse.Courses.Dtos;
 using FastCourse.QuestionAlternatives;
@@ -40,6 +42,10 @@ namespace FastCourse.Mappings
             // Video Lesson
             CreateMap<CreateVideoLessonDto, VideoLesson>();
             CreateMap<VideoLessonDto, VideoLesson>().ReverseMap();
+
+            // Certificate
+            CreateMap<CreateCertificateDto, Certificate>();
+            CreateMap<CertificateDto, Certificate>().ReverseMap();
         }
     }
 }

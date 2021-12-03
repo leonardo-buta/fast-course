@@ -2954,7 +2954,7 @@ export interface IAuthenticateResultModel {
 export class CertificateDto implements ICertificateDto {
     id: number;
     name: string | undefined;
-    course: string | undefined;
+    courseName: string | undefined;
     totalHours: number;
     expirationDate: moment.Moment | undefined;
     signature: string | undefined;
@@ -2973,7 +2973,7 @@ export class CertificateDto implements ICertificateDto {
         if (_data) {
             this.id = _data["id"];
             this.name = _data["name"];
-            this.course = _data["course"];
+            this.courseName = _data["courseName"];
             this.totalHours = _data["totalHours"];
             this.expirationDate = _data["expirationDate"] ? moment(_data["expirationDate"].toString()) : <any>undefined;
             this.signature = _data["signature"];
@@ -2992,7 +2992,7 @@ export class CertificateDto implements ICertificateDto {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["name"] = this.name;
-        data["course"] = this.course;
+        data["courseName"] = this.courseName;
         data["totalHours"] = this.totalHours;
         data["expirationDate"] = this.expirationDate ? this.expirationDate.toISOString() : <any>undefined;
         data["signature"] = this.signature;
@@ -3011,7 +3011,7 @@ export class CertificateDto implements ICertificateDto {
 export interface ICertificateDto {
     id: number;
     name: string | undefined;
-    course: string | undefined;
+    courseName: string | undefined;
     totalHours: number;
     expirationDate: moment.Moment | undefined;
     signature: string | undefined;
