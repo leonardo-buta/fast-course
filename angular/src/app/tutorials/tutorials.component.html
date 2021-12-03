@@ -1,0 +1,44 @@
+<div [@routerTransition]>
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-6">
+                    <h1>Ajuda</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="content px-2">
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th>Tipo</th>
+                                    <th>Descrição</th>
+                                    <th>Formato</th>
+                                    <th style="width: 310px;">{{ "Actions" | localize }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Manual</td>
+                                    <td>Manual de ajuda do sistema</td>
+                                    <td>PDF</td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm bg-secondary">
+                                            <i class="fas fa-file-download"></i>
+                                            Download
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

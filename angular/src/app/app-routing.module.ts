@@ -15,6 +15,7 @@ import { VideoLessonsComponent } from './video-lessons/video-lessons.component';
 import { CreateVideoLessonComponent } from './video-lessons/create-video-lesson/create-video-lesson.component';
 import { CreateCertificateComponent } from './certificates/create-certificate/create-certificate.component';
 import { CertificatesComponent } from './certificates/certificates.component';
+import { TutorialsComponent } from './tutorials/tutorials.component';
 
 @NgModule({
     imports: [
@@ -35,7 +36,8 @@ import { CertificatesComponent } from './certificates/certificates.component';
                     { path: 'video-lessons', component: VideoLessonsComponent, canActivate: [AppRouteGuard] },
                     { path: 'create-video-lesson', component: CreateVideoLessonComponent, canActivate: [AppRouteGuard] },
                     { path: 'certificates', component: CertificatesComponent, canActivate: [AppRouteGuard] },
-                    { path: 'create-certificate', component: CreateCertificateComponent, canActivate: [AppRouteGuard] }
+                    { path: 'create-certificate', component: CreateCertificateComponent, canActivate: [AppRouteGuard] },
+                    { path: 'tutorials', component: TutorialsComponent, canActivate: [AppRouteGuard] }
                 ]
             }
         ])

@@ -47,6 +47,7 @@ import { CreateVideoLessonComponent } from './video-lessons/create-video-lesson/
 import { WatchVideoLessonComponent } from './video-lessons/watch-video-lesson/watch-video-lesson.component';
 import { CertificatesComponent } from './certificates/certificates.component';
 import { CreateCertificateComponent } from './certificates/create-certificate/create-certificate.component';
+import { TutorialsComponent } from './tutorials/tutorials.component';
 
 @NgModule({
   declarations: [
@@ -84,7 +85,8 @@ import { CreateCertificateComponent } from './certificates/create-certificate/cr
     CreateVideoLessonComponent,
     WatchVideoLessonComponent,
     CertificatesComponent,
-    CreateCertificateComponent
+    CreateCertificateComponent,
+    TutorialsComponent
   ],
   imports: [
     CommonModule,
