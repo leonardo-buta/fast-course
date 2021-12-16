@@ -13,6 +13,7 @@ import {
   CourseSelectDto,
   CourseServiceProxy
 } from '@shared/service-proxies/service-proxies';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-create-certificate',
@@ -44,6 +45,8 @@ export class CreateCertificateComponent extends AppComponentBase
 
   save(): void {
     this.saving = true;
+    this.certificate.expirationDate = moment(this.certificate.expirationDate, 'DD-MM-YYYY');
+
     this._certificateService.create(this.certificate).subscribe(
       () => {
         this.notify.info(this.l('SavedSuccessfully'));

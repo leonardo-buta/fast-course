@@ -37,7 +37,7 @@ export class CreateCourseComponent extends AppComponentBase
   save(): void {
     this.saving = true;
     this.course.startDate = moment(this.course.startDate, 'DD-MM-YYYY');
-    this.course.endDate = moment(this.course.startDate, 'DD-MM-YYYY');
+    this.course.endDate = moment(this.course.endDate, 'DD-MM-YYYY');
 
     this._courseService.create(this.course).subscribe(
       () => {
